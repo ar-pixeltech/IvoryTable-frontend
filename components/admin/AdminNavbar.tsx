@@ -1,19 +1,9 @@
 "use client"
-
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
 
 export default function AdminNavbar() {
-    const { token, role, logout } = useAuth();
-    const router = useRouter();
-
-    useEffect(() => {
-        if (!token || role !== "admin") {
-            router.push("/admin/login");
-        }
-    }, [token, role]);
+    const { logout } = useAuth();
 
     return (
         <div className="h-16 bg-white border-b px-8 flex items-center justify-between">
