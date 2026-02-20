@@ -16,11 +16,11 @@ interface CartItem extends Product {
 
 const products: Product[] = [
     // Food
-    { id: '1', name: 'Classic Burger', price: 12.99, category: 'Food', image: 'burger meal' },
-    { id: '2', name: 'Margherita Pizza', price: 15.99, category: 'Food', image: 'pizza margherita' },
-    { id: '3', name: 'Caesar Salad', price: 9.99, category: 'Food', image: 'caesar salad fresh' },
-    { id: '4', name: 'Chicken Wings', price: 11.99, category: 'Food', image: 'chicken wings crispy' },
-    { id: '5', name: 'Pasta Carbonara', price: 13.99, category: 'Food', image: 'pasta carbonara creamy' },
+    { id: '1', name: 'Classic Burger', price: 12.99, category: 'Food', image: '1745427023135-5250e409ae86' },
+    { id: '2', name: 'Margherita Pizza', price: 15.99, category: 'Food', image: '1702716059239-385baacdabdc' },
+    { id: '3', name: 'Caesar Salad', price: 9.99, category: 'Food', image: '1746211224437-8340316b288d' },
+    { id: '4', name: 'Chicken Wings', price: 11.99, category: 'Food', image: '1766589221606-08bc21fa1acd' },
+    { id: '5', name: 'Pasta Carbonara', price: 13.99, category: 'Food', image: '1633337474564-1d9478ca4e2e' },
     { id: '6', name: 'Fish & Chips', price: 14.99, category: 'Food', image: 'fish chips fried' },
 
     // Drinks
@@ -28,18 +28,18 @@ const products: Product[] = [
     { id: '8', name: 'Iced Coffee', price: 5.99, category: 'Drinks', image: 'iced coffee cold' },
     { id: '9', name: 'Smoothie Bowl', price: 7.99, category: 'Drinks', image: 'smoothie bowl colorful' },
     { id: '10', name: 'Fresh Juice', price: 6.99, category: 'Drinks', image: 'orange juice fresh' },
-    { id: '11', name: 'Milkshake', price: 6.49, category: 'Drinks', image: 'milkshake chocolate' },
+    { id: '11', name: 'Chocolate Shake', price: 6.49, category: 'Drinks', image: '1577805947697-89e18249d767' },
 
     // Desserts
-    { id: '12', name: 'Chocolate Cake', price: 6.99, category: 'Desserts', image: 'chocolate cake slice' },
-    { id: '13', name: 'Ice Cream', price: 4.99, category: 'Desserts', image: 'ice cream cone' },
-    { id: '14', name: 'Cheesecake', price: 7.99, category: 'Desserts', image: 'cheesecake strawberry' },
-    { id: '15', name: 'Tiramisu', price: 8.99, category: 'Desserts', image: 'tiramisu dessert' },
+    { id: '12', name: 'Chocolate Cake', price: 6.99, category: 'Desserts', image: '1771415788844-f20f43b984d9' },
+    { id: '13', name: 'Ice Cream', price: 4.99, category: 'Desserts', image: '1592864042311-a3babede6944' },
+    { id: '14', name: 'Cheesecake', price: 7.99, category: 'Desserts', image: '1636743714287-2b168cafb765' },
+    { id: '15', name: 'Tiramisu', price: 8.99, category: 'Desserts', image: '1710106519622-8c49d0bcff2f' },
 
     // Snacks
-    { id: '16', name: 'French Fries', price: 4.99, category: 'Snacks', image: 'french fries crispy' },
-    { id: '17', name: 'Nachos', price: 7.99, category: 'Snacks', image: 'nachos cheese' },
-    { id: '18', name: 'Onion Rings', price: 5.99, category: 'Snacks', image: 'onion rings fried' },
+    { id: '16', name: 'French Fries', price: 4.99, category: 'Snacks', image: '1661081090290-9b66fd49d882' },
+    { id: '17', name: 'Nachos', price: 7.99, category: 'Snacks', image: '1619604107617-d46fffad3ccb' },
+    { id: '18', name: 'Onion Rings', price: 5.99, category: 'Snacks', image: '1766589152188-54bd12a5c71b' },
 ];
 
 const categories = ['All', 'Food', 'Drinks', 'Desserts', 'Snacks'];
@@ -245,7 +245,7 @@ export default function LandingPage() {
                                         <div className="flex justify-between items-start mb-2">
                                             <div className="flex-1">
                                                 <h3 className="font-semibold text-gray-800 text-sm">{item.name}</h3>
-                                                <p className={`${theme.text} font-bold text-sm`}>${item.price.toFixed(2)}</p>
+                                                <p className={`${theme.text} font-bold text-sm`}>₹{item.price.toFixed(2)}</p>
                                             </div>
                                             <button
                                                 onClick={() => removeFromCart(item.id)}
@@ -272,7 +272,7 @@ export default function LandingPage() {
                                                 </button>
                                             </div>
                                             <span className="font-bold text-gray-800 text-sm">
-                                                ${(item.price * item.quantity).toFixed(2)}
+                                                ₹{(item.price * item.quantity).toFixed(2)}
                                             </span>
                                         </div>
                                     </div>
@@ -286,15 +286,17 @@ export default function LandingPage() {
                         <div className="space-y-1.5 mb-3">
                             <div className="flex justify-between text-gray-600 text-sm">
                                 <span>Subtotal</span>
-                                <span className="font-semibold">${subtotal.toFixed(2)}</span>
+                                <span className="font-semibold flex item-center justify-center">
+                                    {/* <IndianRupee size={12} /> */}
+                                    ₹{subtotal.toFixed(2)}</span>
                             </div>
                             <div className="flex justify-between text-gray-600 text-sm">
                                 <span>Tax (8%)</span>
-                                <span className="font-semibold">${tax.toFixed(2)}</span>
+                                <span className="font-semibold">₹{tax.toFixed(2)}</span>
                             </div>
                             <div className="flex justify-between text-lg font-bold text-gray-800 pt-2 border-t">
                                 <span>Total</span>
-                                <span className={theme.text}>${total.toFixed(2)}</span>
+                                <span className={theme.text}>₹{total.toFixed(2)}</span>
                             </div>
                         </div>
 
@@ -387,7 +389,7 @@ export default function LandingPage() {
                             <div className="mb-6 p-4 bg-gray-50 rounded-lg">
                                 <div className="flex justify-between items-center">
                                     <span className="text-gray-600">Total Amount</span>
-                                    <span className={`text-3xl font-bold ${theme.text}`}>${total.toFixed(2)}</span>
+                                    <span className={`text-3xl font-bold ${theme.text}`}>₹{total.toFixed(2)}</span>
                                 </div>
                             </div>
 
@@ -429,7 +431,7 @@ function ProductCard({ product, onAdd, theme }: ProductCardProps) {
         >
             <div className="relative h-32 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
                 <img
-                    src={`https://source.unsplash.com/400x300/?${encodeURIComponent(product.image)}`}
+                    src={`https://images.unsplash.com/photo-${product.image}?auto=format&fit=crop&w=400&q=80`}
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />
@@ -442,7 +444,7 @@ function ProductCard({ product, onAdd, theme }: ProductCardProps) {
                 <div className="flex items-center justify-between">
                     <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded">{product.category}</span>
                     <span className={`font-bold ${theme.text} text-sm`}>
-                        ${product.price.toFixed(2)}
+                        ₹{product.price.toFixed(2)}
                     </span>
                 </div>
             </div>
