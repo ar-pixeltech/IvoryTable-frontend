@@ -177,7 +177,7 @@ export default function VendorSettingsPage() {
         addressLine2: "",
         city: "",
         state: "",
-        pincode: "",
+        pincode: 0,
         invoicePrefix: "INV",
         invoiceFooter: "Thank you for shopping with us!",
     })
@@ -199,14 +199,6 @@ export default function VendorSettingsPage() {
 
     return (
         <div className="space-y-8">
-
-            {/* Header */}
-            {/* <div>
-                <h1 className="text-2xl font-bold">Settings</h1>
-                <p className="text-gray-500 mt-1">
-                    Manage your account & store configuration
-                </p>
-            </div> */}
 
             {/* Header Section */}
             <div className="bg-gradient-to-r from-emerald-600 to-emerald-500 rounded-2xl p-8 text-white shadow-lg">
@@ -251,12 +243,12 @@ export default function VendorSettingsPage() {
                         <Input
                             label="Full Name"
                             value={profileForm.name}
-                            onChange={(v) => setProfileForm({ ...profileForm, name: v })}
+                            onChange={(v: string) => setProfileForm({ ...profileForm, name: v })}
                         />
                         <Input
                             label="Phone"
                             value={profileForm.phone}
-                            onChange={(v) => setProfileForm({ ...profileForm, phone: v })}
+                            onChange={(v: string) => setProfileForm({ ...profileForm, phone: v })}
                         />
                         <Input label="Email" value={user?.email || ""} disabled />
                     </div>
@@ -267,38 +259,38 @@ export default function VendorSettingsPage() {
                         <Input
                             label="Store Name"
                             value={storeForm.storeName}
-                            onChange={(v) => setStoreForm({ ...storeForm, storeName: v })}
+                            onChange={(v: string) => setStoreForm({ ...storeForm, storeName: v })}
                         />
                         <Input
                             label="GST Number (Optional)"
                             value={storeForm.gstNumber}
-                            onChange={(v) => setStoreForm({ ...storeForm, gstNumber: v })}
+                            onChange={(v: string) => setStoreForm({ ...storeForm, gstNumber: v })}
                         />
 
                         <Input
                             label="Address Line 1"
                             value={storeForm.addressLine1}
-                            onChange={(v) => setStoreForm({ ...storeForm, addressLine1: v })}
+                            onChange={(v: string) => setStoreForm({ ...storeForm, addressLine1: v })}
                         />
                         <Input
                             label="Address Line 2"
                             value={storeForm.addressLine2}
-                            onChange={(v) => setStoreForm({ ...storeForm, addressLine2: v })}
+                            onChange={(v: string) => setStoreForm({ ...storeForm, addressLine2: v })}
                         />
                         <Input
                             label="City"
                             value={storeForm.city}
-                            onChange={(v) => setStoreForm({ ...storeForm, city: v })}
+                            onChange={(v: string) => setStoreForm({ ...storeForm, city: v })}
                         />
                         <Input
                             label="State"
                             value={storeForm.state}
-                            onChange={(v) => setStoreForm({ ...storeForm, state: v })}
+                            onChange={(v: string) => setStoreForm({ ...storeForm, state: v })}
                         />
                         <Input
                             label="Pincode"
                             value={storeForm.pincode}
-                            onChange={(v) => setStoreForm({ ...storeForm, pincode: v })}
+                            onChange={(v: number) => setStoreForm({ ...storeForm, pincode: v })}
                         />
                     </div>
                 )}
@@ -310,7 +302,7 @@ export default function VendorSettingsPage() {
                             label="GST Percentage (%)"
                             type="number"
                             value={storeForm.gstPercentage}
-                            onChange={(v) =>
+                            onChange={(v: string | number) =>
                                 setStoreForm({
                                     ...storeForm,
                                     gstPercentage: Number(v),
@@ -321,7 +313,7 @@ export default function VendorSettingsPage() {
                         <Input
                             label="Invoice Prefix"
                             value={storeForm.invoicePrefix}
-                            onChange={(v) =>
+                            onChange={(v: string) =>
                                 setStoreForm({
                                     ...storeForm,
                                     invoicePrefix: v,
