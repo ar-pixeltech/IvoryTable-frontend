@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Modern SaaS frontend for IvoryTable POS system built using Next.js, TypeScript, Tailwind CSS, and App Router. Includes authentication, vendor dashboard, menu management, order tracking, and inventory modules.
 
 ## Getting Started
 
