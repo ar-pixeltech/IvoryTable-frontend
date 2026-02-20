@@ -2,11 +2,12 @@
 
 import Card from "@/components/ui/Card"
 import RouteGuard from "@/components/RouteGuard";
+import { Roles, RoleTypes } from "@/constants/roles";
 
 export default function AdminDashboard() {
 
     return (
-        <RouteGuard role="admin" type="protected">
+        <RouteGuard role={Roles.ADMIN} type={RoleTypes.PROTECTED}>
             <div className="space-y-8">
 
                 <h1 className="text-3xl font-bold text-gray-800">

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { adminLogin } from "@/services/admin.service";
 import { useAuth } from "@/context/AuthContext";
 import RouteGuard from "@/components/RouteGuard";
+import { Roles, RoleTypes } from "@/constants/roles";
 
 export default function AdminLogin() {
     const router = useRouter();
@@ -41,7 +42,7 @@ export default function AdminLogin() {
     };
 
     return (
-        <RouteGuard role="admin" type="guest">
+        <RouteGuard role={Roles.ADMIN} type={RoleTypes.GUEST}>
             <div className="min-h-screen flex">
                 {/* Left Branding Panel */}
                 <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-indigo-600 to-purple-700 text-white items-center justify-center">
