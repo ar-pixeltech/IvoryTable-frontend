@@ -8,6 +8,7 @@ import {
     getSubscriptionPlans,
     createSubscriptionPlan,
 } from "@/services/subscription.service";
+import { formatCurrency } from "@/lib/utils";
 
 type Plan = {
     id: string;
@@ -110,14 +111,6 @@ export default function SubscriptionsPage() {
         }
 
 
-    };
-
-    const formatCurrency = (value: number) => {
-        return new Intl.NumberFormat("en-IN", {
-            style: "currency",
-            currency: "INR",
-            maximumFractionDigits: 0,
-        }).format(value);
     };
 
     const getExpiryDate = () => {

@@ -13,6 +13,7 @@ import {
 
 const menuItems = [
     { label: "Dashboard", href: "/vendor", icon: LayoutDashboard },
+    { label: "Categories", href: "/vendor/categories", icon: Package },
     { label: "Products", href: "/vendor/products", icon: Package },
     { label: "Sales", href: "/vendor/sales", icon: BarChart3 },
     { label: "POS", href: "/vendor/pos", icon: ShoppingCart },
@@ -39,8 +40,8 @@ export default function VendorSidebar() {
                             key={item.href}
                             href={item.href}
                             className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${active
-                                    ? "bg-emerald-600 text-white"
-                                    : "hover:bg-emerald-800"
+                                ? "bg-emerald-600 text-white"
+                                : "hover:bg-emerald-800"
                                 }`}
                         >
                             <Icon size={18} />
