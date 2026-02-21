@@ -89,6 +89,21 @@ export default function CategoriesPage() {
         setLoading(false)
     }
 
+    const deleteCategory = async (id: string) => {
+        const previous = categories
+
+        // Optimistic remove
+        setCategories(prev => prev.filter(cat => cat.id !== id))
+
+        try {
+            await axios.delete(`/vendor/categories/${id}`)
+        } catch (err) {
+            // rollback if error
+            setCategories(previous)
+        }
+    }
+
+
     return (
 
         <div className="space-y-6">
@@ -108,7 +123,7 @@ export default function CategoriesPage() {
                         >
                             <div className="space-y-3">
                                 {categories.map(cat => (
-                                    <SortableItem key={cat.id} id={cat.id} name={cat.name} />
+                                    <SortableItem key={cat.id} id={cat.id} name={cat.name} onDelete={deleteCategory} />
                                 ))}
                             </div>
                         </SortableContext>

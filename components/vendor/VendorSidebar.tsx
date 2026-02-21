@@ -8,12 +8,13 @@ import {
     ShoppingCart,
     BarChart3,
     User,
-    CreditCard
+    CreditCard,
+    List
 } from "lucide-react"
 
 const menuItems = [
     { label: "Dashboard", href: "/vendor", icon: LayoutDashboard },
-    { label: "Categories", href: "/vendor/categories", icon: Package },
+    { label: "Categories", href: "/vendor/categories", icon: List },
     { label: "Products", href: "/vendor/products", icon: Package },
     { label: "Sales", href: "/vendor/sales", icon: BarChart3 },
     { label: "POS", href: "/vendor/pos", icon: ShoppingCart },
