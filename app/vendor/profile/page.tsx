@@ -149,244 +149,240 @@
 //     )
 // }
 
+'use client';
 
-"use client"
+import { useState } from 'react';
+import { useAuth } from '@/context/AuthContext';
+import axios from '@/lib/axios';
+import { Camera, Save } from 'lucide-react';
 
-import { useState } from "react"
-import { useAuth } from "@/context/AuthContext"
-import axios from "@/lib/axios"
-import { Camera, Save } from "lucide-react"
-
-type TabType = "profile" | "store" | "invoice"
+type TabType = 'profile' | 'store' | 'invoice';
 
 export default function VendorSettingsPage() {
-    const { user } = useAuth()
-    const [activeTab, setActiveTab] = useState<TabType>("profile")
-    const [loading, setLoading] = useState(false)
+  const { user } = useAuth();
+  const [activeTab, setActiveTab] = useState<TabType>('profile');
+  const [loading, setLoading] = useState(false);
 
-    const [profileForm, setProfileForm] = useState({
-        name: user?.name || "",
-        phone: "",
-    })
+  const [profileForm, setProfileForm] = useState({
+    name: user?.name || '',
+    phone: '',
+  });
 
-    const [storeForm, setStoreForm] = useState({
-        storeName: "",
-        gstNumber: "",
-        gstPercentage: 18,
-        addressLine1: "",
-        addressLine2: "",
-        city: "",
-        state: "",
-        pincode: 0,
-        invoicePrefix: "INV",
-        invoiceFooter: "Thank you for shopping with us!",
-    })
+  const [storeForm, setStoreForm] = useState({
+    storeName: '',
+    gstNumber: '',
+    gstPercentage: 18,
+    addressLine1: '',
+    addressLine2: '',
+    city: '',
+    state: '',
+    pincode: 0,
+    invoicePrefix: 'INV',
+    invoiceFooter: 'Thank you for shopping with us!',
+  });
 
-    const handleSave = async () => {
-        try {
-            setLoading(true)
-            await axios.put("/vendor/settings", {
-                profile: profileForm,
-                store: storeForm,
-            })
-            alert("Settings saved successfully")
-        } catch (err) {
-            alert("Error saving settings")
-        } finally {
-            setLoading(false)
-        }
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      await axios.put('/vendor/settings', {
+        profile: profileForm,
+        store: storeForm,
+      });
+      alert('Settings saved successfully');
+    } catch (err) {
+      alert('Error saving settings');
+    } finally {
+      setLoading(false);
     }
+  };
 
-    return (
-        <div className="space-y-8">
-
-            {/* Header Section */}
-            <div className="bg-gradient-to-r from-emerald-600 to-emerald-500 rounded-2xl p-8 text-white shadow-lg">
-                <div className="flex items-center gap-6">
-                    <div className="relative">
-                        <div className="w-24 h-24 rounded-full bg-white/20 flex items-center justify-center text-3xl font-bold">
-                            {user?.name?.charAt(0)}
-                        </div>
-
-                        <button className="absolute bottom-0 right-0 bg-white text-emerald-600 p-1 rounded-full shadow">
-                            <Camera size={16} />
-                        </button>
-                    </div>
-
-                    <div>
-                        <h1 className="text-2xl font-bold">{user?.name}</h1>
-                        <p className="text-sm opacity-90">{user?.email}</p>
-                        <span className="inline-block mt-2 bg-white/20 px-3 py-1 rounded-full text-xs">
-                            Vendor Account
-                        </span>
-                        <p className="text-gray-200 mt-1  text-sm">
-                            Manage your account & store configuration
-                        </p>
-                    </div>
-
-                </div>
+  return (
+    <div className="space-y-8">
+      {/* Header Section */}
+      <div className="bg-gradient-to-r from-emerald-600 to-emerald-500 rounded-2xl p-8 text-white shadow-lg">
+        <div className="flex items-center gap-6">
+          <div className="relative">
+            <div className="w-24 h-24 rounded-full bg-white/20 flex items-center justify-center text-3xl font-bold">
+              {user?.name?.charAt(0)}
             </div>
 
+            <button className="absolute bottom-0 right-0 bg-white text-emerald-600 p-1 rounded-full shadow">
+              <Camera size={16} />
+            </button>
+          </div>
 
-            {/* Tabs */}
-            <div className="flex gap-4 border-b pb-2">
-                <TabButton label="Profile" active={activeTab === "profile"} onClick={() => setActiveTab("profile")} />
-                <TabButton label="Store Settings" active={activeTab === "store"} onClick={() => setActiveTab("store")} />
-                <TabButton label="Invoice & GST" active={activeTab === "invoice"} onClick={() => setActiveTab("invoice")} />
-            </div>
-
-            {/* Content */}
-            <div className="bg-white rounded-2xl shadow-sm border p-8">
-
-                {activeTab === "profile" && (
-                    <div className="grid grid-cols-2 gap-6">
-                        <Input
-                            label="Full Name"
-                            value={profileForm.name}
-                            onChange={(v: string) => setProfileForm({ ...profileForm, name: v })}
-                        />
-                        <Input
-                            label="Phone"
-                            value={profileForm.phone}
-                            onChange={(v: string) => setProfileForm({ ...profileForm, phone: v })}
-                        />
-                        <Input label="Email" value={user?.email || ""} disabled />
-                    </div>
-                )}
-
-                {activeTab === "store" && (
-                    <div className="grid grid-cols-2 gap-6">
-                        <Input
-                            label="Store Name"
-                            value={storeForm.storeName}
-                            onChange={(v: string) => setStoreForm({ ...storeForm, storeName: v })}
-                        />
-                        <Input
-                            label="GST Number (Optional)"
-                            value={storeForm.gstNumber}
-                            onChange={(v: string) => setStoreForm({ ...storeForm, gstNumber: v })}
-                        />
-
-                        <Input
-                            label="Address Line 1"
-                            value={storeForm.addressLine1}
-                            onChange={(v: string) => setStoreForm({ ...storeForm, addressLine1: v })}
-                        />
-                        <Input
-                            label="Address Line 2"
-                            value={storeForm.addressLine2}
-                            onChange={(v: string) => setStoreForm({ ...storeForm, addressLine2: v })}
-                        />
-                        <Input
-                            label="City"
-                            value={storeForm.city}
-                            onChange={(v: string) => setStoreForm({ ...storeForm, city: v })}
-                        />
-                        <Input
-                            label="State"
-                            value={storeForm.state}
-                            onChange={(v: string) => setStoreForm({ ...storeForm, state: v })}
-                        />
-                        <Input
-                            label="Pincode"
-                            value={storeForm.pincode}
-                            onChange={(v: number) => setStoreForm({ ...storeForm, pincode: v })}
-                        />
-                    </div>
-                )}
-
-                {activeTab === "invoice" && (
-                    <div className="grid grid-cols-2 gap-6">
-
-                        <Input
-                            label="GST Percentage (%)"
-                            type="number"
-                            value={storeForm.gstPercentage}
-                            onChange={(v: string | number) =>
-                                setStoreForm({
-                                    ...storeForm,
-                                    gstPercentage: Number(v),
-                                })
-                            }
-                        />
-
-                        <Input
-                            label="Invoice Prefix"
-                            value={storeForm.invoicePrefix}
-                            onChange={(v: string) =>
-                                setStoreForm({
-                                    ...storeForm,
-                                    invoicePrefix: v,
-                                })
-                            }
-                        />
-
-                        <div className="col-span-2">
-                            <label className="text-sm text-gray-500">
-                                Invoice Footer Message
-                            </label>
-                            <textarea
-                                value={storeForm.invoiceFooter}
-                                onChange={(e) =>
-                                    setStoreForm({
-                                        ...storeForm,
-                                        invoiceFooter: e.target.value,
-                                    })
-                                }
-                                className="w-full mt-1 border rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 outline-none"
-                                rows={4}
-                            />
-                        </div>
-                    </div>
-                )}
-
-                <div className="mt-8">
-                    <button
-                        onClick={handleSave}
-                        disabled={loading}
-                        className="bg-emerald-600 text-white px-6 py-3 rounded-lg hover:bg-emerald-700 transition flex items-center gap-2"
-                    >
-                        <Save size={18} />
-                        {loading ? "Saving..." : "Save Changes"}
-                    </button>
-                </div>
-            </div>
+          <div>
+            <h1 className="text-2xl font-bold">{user?.name}</h1>
+            <p className="text-sm opacity-90">{user?.email}</p>
+            <span className="inline-block mt-2 bg-white/20 px-3 py-1 rounded-full text-xs">
+              Vendor Account
+            </span>
+            <p className="text-gray-200 mt-1  text-sm">Manage your account & store configuration</p>
+          </div>
         </div>
-    )
+      </div>
+
+      {/* Tabs */}
+      <div className="flex gap-4 border-b pb-2">
+        <TabButton
+          label="Profile"
+          active={activeTab === 'profile'}
+          onClick={() => setActiveTab('profile')}
+        />
+        <TabButton
+          label="Store Settings"
+          active={activeTab === 'store'}
+          onClick={() => setActiveTab('store')}
+        />
+        <TabButton
+          label="Invoice & GST"
+          active={activeTab === 'invoice'}
+          onClick={() => setActiveTab('invoice')}
+        />
+      </div>
+
+      {/* Content */}
+      <div className="bg-white rounded-2xl shadow-sm border p-8">
+        {activeTab === 'profile' && (
+          <div className="grid grid-cols-2 gap-6">
+            <Input
+              label="Full Name"
+              value={profileForm.name}
+              onChange={(v: string) => setProfileForm({ ...profileForm, name: v })}
+            />
+            <Input
+              label="Phone"
+              value={profileForm.phone}
+              onChange={(v: string) => setProfileForm({ ...profileForm, phone: v })}
+            />
+            <Input label="Email" value={user?.email || ''} disabled />
+          </div>
+        )}
+
+        {activeTab === 'store' && (
+          <div className="grid grid-cols-2 gap-6">
+            <Input
+              label="Store Name"
+              value={storeForm.storeName}
+              onChange={(v: string) => setStoreForm({ ...storeForm, storeName: v })}
+            />
+            <Input
+              label="GST Number (Optional)"
+              value={storeForm.gstNumber}
+              onChange={(v: string) => setStoreForm({ ...storeForm, gstNumber: v })}
+            />
+
+            <Input
+              label="Address Line 1"
+              value={storeForm.addressLine1}
+              onChange={(v: string) => setStoreForm({ ...storeForm, addressLine1: v })}
+            />
+            <Input
+              label="Address Line 2"
+              value={storeForm.addressLine2}
+              onChange={(v: string) => setStoreForm({ ...storeForm, addressLine2: v })}
+            />
+            <Input
+              label="City"
+              value={storeForm.city}
+              onChange={(v: string) => setStoreForm({ ...storeForm, city: v })}
+            />
+            <Input
+              label="State"
+              value={storeForm.state}
+              onChange={(v: string) => setStoreForm({ ...storeForm, state: v })}
+            />
+            <Input
+              label="Pincode"
+              value={storeForm.pincode}
+              onChange={(v: number) => setStoreForm({ ...storeForm, pincode: v })}
+            />
+          </div>
+        )}
+
+        {activeTab === 'invoice' && (
+          <div className="grid grid-cols-2 gap-6">
+            <Input
+              label="GST Percentage (%)"
+              type="number"
+              value={storeForm.gstPercentage}
+              onChange={(v: string | number) =>
+                setStoreForm({
+                  ...storeForm,
+                  gstPercentage: Number(v),
+                })
+              }
+            />
+
+            <Input
+              label="Invoice Prefix"
+              value={storeForm.invoicePrefix}
+              onChange={(v: string) =>
+                setStoreForm({
+                  ...storeForm,
+                  invoicePrefix: v,
+                })
+              }
+            />
+
+            <div className="col-span-2">
+              <label className="text-sm text-gray-500">Invoice Footer Message</label>
+              <textarea
+                value={storeForm.invoiceFooter}
+                onChange={(e) =>
+                  setStoreForm({
+                    ...storeForm,
+                    invoiceFooter: e.target.value,
+                  })
+                }
+                className="w-full mt-1 border rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 outline-none"
+                rows={4}
+              />
+            </div>
+          </div>
+        )}
+
+        <div className="mt-8">
+          <button
+            onClick={handleSave}
+            disabled={loading}
+            className="bg-emerald-600 text-white px-6 py-3 rounded-lg hover:bg-emerald-700 transition flex items-center gap-2"
+          >
+            <Save size={18} />
+            {loading ? 'Saving...' : 'Save Changes'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function TabButton({ label, active, onClick }: any) {
-    return (
-        <button
-            onClick={onClick}
-            className={`px-4 py-2 rounded-lg text-sm transition ${active
-                ? "bg-emerald-600 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
-        >
-            {label}
-        </button>
-    )
+  return (
+    <button
+      onClick={onClick}
+      className={`px-4 py-2 rounded-lg text-sm transition ${
+        active ? 'bg-emerald-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+      }`}
+    >
+      {label}
+    </button>
+  );
 }
 
-function Input({
-    label,
-    value,
-    onChange,
-    type = "text",
-    disabled = false,
-}: any) {
-    return (
-        <div>
-            <label className="text-sm text-gray-500">{label}</label>
-            <input
-                type={type}
-                value={value}
-                disabled={disabled}
-                onChange={(e) => onChange(e.target.value)}
-                className={`w-full mt-1 border rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 outline-none ${disabled ? "bg-gray-100" : ""
-                    }`}
-            />
-        </div>
-    )
+function Input({ label, value, onChange, type = 'text', disabled = false }: any) {
+  return (
+    <div>
+      <label className="text-sm text-gray-500">{label}</label>
+      <input
+        type={type}
+        value={value}
+        disabled={disabled}
+        onChange={(e) => onChange(e.target.value)}
+        className={`w-full mt-1 border rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 outline-none ${
+          disabled ? 'bg-gray-100' : ''
+        }`}
+      />
+    </div>
+  );
 }
