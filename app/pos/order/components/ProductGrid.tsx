@@ -1,28 +1,23 @@
 'use client';
 
-import { CartItem } from '@/types/cart';
+import { categories, products } from '@/utils/productData';
 import { Search } from 'lucide-react';
+import { useState } from 'react';
 import ProductCard from './ProductCard';
 
 interface Props {
-  products: CartItem[];
-  categories: string[];
-  selectedCategory: string;
-  setSelectedCategory: (v: string) => void;
-  searchQuery: string;
-  setSearchQuery: (v: string) => void;
   theme: any;
 }
 
-export default function ProductGrid({
-  products,
-  categories,
-  selectedCategory,
-  setSelectedCategory,
-  searchQuery,
-  setSearchQuery,
-  theme,
-}: Props) {
+export default function ProductGrid({ theme }: Props) {
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredProducts = products.filter((product) => {
+    const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
+    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="flex-1 p-4 overflow-y-auto">
@@ -57,7 +52,7 @@ export default function ProductGrid({
         </div>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <ProductCard key={product.id} product={product} theme={theme} />
         ))}
       </div>

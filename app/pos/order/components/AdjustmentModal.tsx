@@ -9,18 +9,18 @@ interface Props {
   onClose: () => void;
 }
 
-export default function AdjustmentModal({  adjustmentType, onClose }: Props) {
+export default function AdjustmentModal({ adjustmentType, onClose }: Props) {
+  const { discount, tip, setDiscount, setTip } = useCartStore();
 
-  const {
-    discount,
-    tip,
-    setDiscount,
-    setTip,
-  } = useCartStore();
-
-  const [type, setType] = useState<AdjustmentType>((adjustmentType === 'discount' ? discount?.type : tip?.type) || 'percent');
-  const [value, setValue] = useState<number>((adjustmentType === 'discount' ? discount?.value : tip?.value) || 0);
-  const [remark, setRemark] = useState<string>((adjustmentType === 'discount' ? discount?.remark : tip?.remark) || '');
+  const [type, setType] = useState<AdjustmentType>(
+    (adjustmentType === 'discount' ? discount?.type : tip?.type) || 'percent'
+  );
+  const [value, setValue] = useState<number>(
+    (adjustmentType === 'discount' ? discount?.value : tip?.value) || 0
+  );
+  const [remark, setRemark] = useState<string>(
+    (adjustmentType === 'discount' ? discount?.remark : tip?.remark) || ''
+  );
 
   const keypad = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '.', '⌫'];
 
@@ -84,26 +84,29 @@ export default function AdjustmentModal({  adjustmentType, onClose }: Props) {
 
         <div className="flex gap-2">
           {adjustmentType && (
-            <button onClick={() => {
-              if(adjustmentType === 'discount'){
-                setDiscount(null)
-              }else{
-                setTip(null)
-              }
-              onClose()
-            }} className="flex-1 bg-red-100 text-red-600 py-2 rounded">
+            <button
+              onClick={() => {
+                if (adjustmentType === 'discount') {
+                  setDiscount(null);
+                } else {
+                  setTip(null);
+                }
+                onClose();
+              }}
+              className="flex-1 bg-red-100 text-red-600 py-2 rounded"
+            >
               Remove
             </button>
           )}
 
           <button
             onClick={() => {
-              if(adjustmentType === 'discount'){
-                setDiscount({ type, value, remark })
-              }else{
-                setTip({ type, value, remark })
+              if (adjustmentType === 'discount') {
+                setDiscount({ type, value, remark });
+              } else {
+                setTip({ type, value, remark });
               }
-              onClose()
+              onClose();
             }}
             className="flex-1 bg-black text-white py-2 rounded"
           >

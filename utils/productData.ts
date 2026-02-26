@@ -1,4 +1,4 @@
-import { CartItem } from "@/types/cart";
+import { CartItem } from '@/types/cart';
 
 export const products: CartItem[] = [
   // Food

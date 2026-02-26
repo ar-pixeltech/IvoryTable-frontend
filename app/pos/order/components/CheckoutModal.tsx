@@ -3,7 +3,6 @@
 import { useCartStore } from '@/store/cartStore';
 import { CreditCard, IndianRupee, X, Check } from 'lucide-react';
 
-
 export interface CheckoutModalProps {
   theme: any;
   paymentMethod: 'cash' | 'card';
@@ -19,11 +18,7 @@ export default function CheckoutModal({
   onClose,
   onConfirm,
 }: CheckoutModalProps) {
-
-  const {
-    cart,
-    getTotals
-  } = useCartStore();
+  const { cart, getTotals } = useCartStore();
 
   const { total } = getTotals();
 

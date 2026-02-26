@@ -1,7 +1,7 @@
 'use client';
 
 import { Plus } from 'lucide-react';
-import {  themeColors } from '@/utils/productData';
+import { themeColors } from '@/utils/productData';
 import { useCartStore } from '@/store/cartStore';
 import { CartItem } from '@/types/cart';
 
@@ -11,8 +11,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, theme }: ProductCardProps) {
-
-  const {addToCart} = useCartStore()
+  const { addToCart } = useCartStore();
 
   return (
     <div

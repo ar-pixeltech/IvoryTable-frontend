@@ -72,7 +72,7 @@ export const useCartStore = create<CartStore>()(
             : tip.value
           : 0;
 
-        const total = discountedSubtotal + tax + tipAmount;    
+        const total = discountedSubtotal + tax + tipAmount;
 
         return {
           subtotal,

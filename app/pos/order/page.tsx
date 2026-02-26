@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { categories, products, themeColors } from '@/utils/productData';
+import { themeColors } from '@/utils/productData';
 import Header from './components/Header';
 import ProductGrid from './components/ProductGrid';
 import CartPanel from './components/CartPanel';
@@ -10,25 +10,15 @@ import { useCartStore } from '@/store/cartStore';
 import { AdjustmentMethods } from '@/types/cart';
 
 export default function LandingPage() {
-  const [selectedCategory, setSelectedCategory] = useState('All');
   const [themeIndex, setThemeIndex] = useState(0);
   const [showThemePicker, setShowThemePicker] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<'cash' | 'card'>('card');
   const [activeModal, setActiveModal] = useState<AdjustmentMethods>(null);
 
   const theme = themeColors[themeIndex];
 
-  const {
-    clearCart,
-  } = useCartStore();
-
-  const filteredProducts = products.filter((product) => {
-    const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
-    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const { clearCart } = useCartStore();
 
   const currentTime = new Date().toLocaleTimeString('en-US', {
     hour: '2-digit',
@@ -56,15 +46,7 @@ export default function LandingPage() {
         currentTime={currentTime}
       />
       <div className="flex h-[calc(100vh-73px)]">
-        <ProductGrid
-          products={filteredProducts}
-          categories={categories}
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          theme={theme}
-        />
+        <ProductGrid theme={theme} />
         {/* Right Panel - Cart */}
         <CartPanel
           theme={theme}
@@ -84,10 +66,7 @@ export default function LandingPage() {
         />
       )}
       {activeModal && (
-        <AdjustmentModal
-          adjustmentType={activeModal}
-          onClose={() => setActiveModal(null)}
-        />
+        <AdjustmentModal adjustmentType={activeModal} onClose={() => setActiveModal(null)} />
       )}
     </div>
   );

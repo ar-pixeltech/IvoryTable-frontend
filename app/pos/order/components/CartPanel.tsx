@@ -10,21 +10,9 @@ interface CartPanelProps {
   setShowCheckout: (val: boolean) => void;
 }
 
-export default function CartPanel({
-  theme,
-  setActiveModal,
-  setShowCheckout,
-}: CartPanelProps) {
-
-  const {
-    cart,
-    discount,
-    tip,
-    removeFromCart,
-    updateQuantity,
-    clearCart,
-    getTotals
-  } = useCartStore();
+export default function CartPanel({ theme, setActiveModal, setShowCheckout }: CartPanelProps) {
+  const { cart, discount, tip, removeFromCart, updateQuantity, clearCart, getTotals } =
+    useCartStore();
 
   const { subtotal, discountAmount, tax, tipAmount, total } = getTotals();
 
