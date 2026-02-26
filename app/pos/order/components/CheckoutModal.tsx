@@ -1,16 +1,11 @@
 'use client';
 
-import { Product, themeColors } from '@/utils/productData';
+import { useCartStore } from '@/store/cartStore';
 import { CreditCard, IndianRupee, X, Check } from 'lucide-react';
 
-interface CartItem extends Product {
-  quantity: number;
-}
 
 export interface CheckoutModalProps {
-  cart: CartItem[];
   theme: any;
-  total: number;
   paymentMethod: 'cash' | 'card';
   setPaymentMethod: (method: 'cash' | 'card') => void;
   onClose: () => void;
@@ -18,14 +13,20 @@ export interface CheckoutModalProps {
 }
 
 export default function CheckoutModal({
-  cart,
   theme,
-  total,
   paymentMethod,
   setPaymentMethod,
   onClose,
   onConfirm,
 }: CheckoutModalProps) {
+
+  const {
+    cart,
+    getTotals
+  } = useCartStore();
+
+  const { total } = getTotals();
+
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-300">

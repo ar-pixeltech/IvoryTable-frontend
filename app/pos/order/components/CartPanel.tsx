@@ -1,45 +1,33 @@
 'use client';
 
+import { useCartStore } from '@/store/cartStore';
 import { CartItem } from '@/utils/productData';
 import { Minus, Plus, Trash2, CreditCard, ShoppingCart } from 'lucide-react';
-import { Adjustment } from '../page';
 
 interface CartPanelProps {
-  cart: CartItem[];
   theme: any;
-  subtotal: number;
-  tax: number;
-  finalTotal: number;
-
-  discount: Adjustment | null;
-  tip: Adjustment | null;
-  discountAmount: number;
-  tipAmount: number;
-
   setActiveModal: (v: 'discount' | 'tip') => void;
-
-  updateQuantity: (id: string, delta: number) => void;
-  removeFromCart: (id: string) => void;
-  clearCart: () => void;
   setShowCheckout: (val: boolean) => void;
 }
 
 export default function CartPanel({
-  cart,
   theme,
-  subtotal,
-  tax,
-  finalTotal,
-  discount,
-  tip,
-  discountAmount,
-  tipAmount,
   setActiveModal,
-  updateQuantity,
-  removeFromCart,
-  clearCart,
   setShowCheckout,
 }: CartPanelProps) {
+
+  const {
+    cart,
+    discount,
+    tip,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+    getTotals
+  } = useCartStore();
+
+  const { subtotal, discountAmount, tax, tipAmount, total } = getTotals();
+
   return (
     <div className="w-80 bg-white shadow-xl flex flex-col border-l border-gray-200">
       {/* Cart Header */}
@@ -153,7 +141,7 @@ export default function CartPanel({
 
           <div className="flex justify-between text-lg font-bold text-gray-800 pt-2 border-t">
             <span>Total</span>
-            <span className={theme.text}>₹{finalTotal.toFixed(2)}</span>
+            <span className={theme.text}>₹{total.toFixed(2)}</span>
           </div>
         </div>
 

@@ -3,6 +3,7 @@
 import { Search } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { Product } from '@/utils/productData';
+import { useCartStore } from '@/store/cartStore';
 
 interface Props {
   products: Product[];
@@ -11,7 +12,6 @@ interface Props {
   setSelectedCategory: (v: string) => void;
   searchQuery: string;
   setSearchQuery: (v: string) => void;
-  onAdd: (p: Product) => void;
   theme: any;
 }
 
@@ -22,9 +22,11 @@ export default function ProductGrid({
   setSelectedCategory,
   searchQuery,
   setSearchQuery,
-  onAdd,
   theme,
 }: Props) {
+
+  const {addToCart} = useCartStore();
+
   return (
     <div className="flex-1 p-4 overflow-y-auto">
       <div className="mb-4">
@@ -59,7 +61,7 @@ export default function ProductGrid({
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} onAdd={onAdd} theme={theme} />
+          <ProductCard key={product.id} product={product} onAdd={() => addToCart(product)} theme={theme} />
         ))}
       </div>
     </div>

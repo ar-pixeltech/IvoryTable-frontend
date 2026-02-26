@@ -1,20 +1,26 @@
 'use client';
 
+import { useCartStore } from '@/store/cartStore';
+import { AdjustmentMethods, Adjustment, AdjustmentType } from '@/types/cart';
 import { useState } from 'react';
-import { Adjustment, AdjustmentType } from '../page';
 
 interface Props {
-  title: string;
-  initialValue: Adjustment | null;
-  onSave: (val: Adjustment) => void;
-  onRemove: () => void;
+  adjustmentType: AdjustmentMethods;
   onClose: () => void;
 }
 
-export default function AdjustmentModal({ title, initialValue, onSave, onRemove, onClose }: Props) {
-  const [type, setType] = useState<AdjustmentType>(initialValue?.type || 'percent');
-  const [value, setValue] = useState<number>(initialValue?.value || 0);
-  const [remark, setRemark] = useState<string>(initialValue?.remark || '');
+export default function AdjustmentModal({  adjustmentType, onClose }: Props) {
+
+  const {
+    discount,
+    tip,
+    setDiscount,
+    setTip,
+  } = useCartStore();
+
+  const [type, setType] = useState<AdjustmentType>((adjustmentType === 'discount' ? discount?.type : tip?.type) || 'percent');
+  const [value, setValue] = useState<number>((adjustmentType === 'discount' ? discount?.value : tip?.value) || 0);
+  const [remark, setRemark] = useState<string>((adjustmentType === 'discount' ? discount?.remark : tip?.remark) || '');
 
   const keypad = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '.', '⌫'];
 
@@ -30,7 +36,7 @@ export default function AdjustmentModal({ title, initialValue, onSave, onRemove,
     <div className="fixed inset-0 bg-black/40 flex items-end sm:items-center justify-center z-50">
       <div className="bg-white w-full sm:w-96 rounded-t-xl sm:rounded-xl p-4">
         <div className="flex justify-between mb-2">
-          <h2 className="font-semibold">{title}</h2>
+          <h2 className="font-semibold">{adjustmentType}</h2>
           <button onClick={onClose}>✕</button>
         </div>
 
@@ -77,14 +83,28 @@ export default function AdjustmentModal({ title, initialValue, onSave, onRemove,
         />
 
         <div className="flex gap-2">
-          {initialValue && (
-            <button onClick={onRemove} className="flex-1 bg-red-100 text-red-600 py-2 rounded">
+          {adjustmentType && (
+            <button onClick={() => {
+              if(adjustmentType === 'discount'){
+                setDiscount(null)
+              }else{
+                setTip(null)
+              }
+              onClose()
+            }} className="flex-1 bg-red-100 text-red-600 py-2 rounded">
               Remove
             </button>
           )}
 
           <button
-            onClick={() => onSave({ type, value, remark })}
+            onClick={() => {
+              if(adjustmentType === 'discount'){
+                setDiscount({ type, value, remark })
+              }else{
+                setTip({ type, value, remark })
+              }
+              onClose()
+            }}
             className="flex-1 bg-black text-white py-2 rounded"
           >
             Save
