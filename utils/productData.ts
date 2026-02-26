@@ -1,12 +1,6 @@
-export interface Product {
-  id: string;
-  name: string;
-  price: number;
-  category: string;
-  image: string;
-}
+import { CartItem } from "@/types/cart";
 
-export const products: Product[] = [
+export const products: CartItem[] = [
   // Food
   {
     id: '1',
@@ -188,7 +182,3 @@ export const themeColors = [
     border: 'border-cyan-200',
   },
 ];
-
-export interface CartItem extends Product {
-  quantity: number;
-}

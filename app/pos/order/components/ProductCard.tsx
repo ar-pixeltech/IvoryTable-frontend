@@ -1,19 +1,23 @@
 'use client';
 
 import { Plus } from 'lucide-react';
-import { Product, themeColors } from '@/utils/productData';
+import {  themeColors } from '@/utils/productData';
+import { useCartStore } from '@/store/cartStore';
+import { CartItem } from '@/types/cart';
 
 interface ProductCardProps {
-  product: Product;
-  onAdd: (product: Product) => void;
+  product: CartItem;
   theme: (typeof themeColors)[0];
 }
 
-export default function ProductCard({ product, onAdd, theme }: ProductCardProps) {
+export default function ProductCard({ product, theme }: ProductCardProps) {
+
+  const {addToCart} = useCartStore()
+
   return (
     <div
       className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer active:scale-95 border border-gray-200 group"
-      onClick={() => onAdd(product)}
+      onClick={() => addToCart(product)}
     >
       <div className="relative h-32 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
         <img

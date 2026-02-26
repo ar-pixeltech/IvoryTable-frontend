@@ -1,12 +1,11 @@
 'use client';
 
+import { CartItem } from '@/types/cart';
 import { Search } from 'lucide-react';
 import ProductCard from './ProductCard';
-import { Product } from '@/utils/productData';
-import { useCartStore } from '@/store/cartStore';
 
 interface Props {
-  products: Product[];
+  products: CartItem[];
   categories: string[];
   selectedCategory: string;
   setSelectedCategory: (v: string) => void;
@@ -24,8 +23,6 @@ export default function ProductGrid({
   setSearchQuery,
   theme,
 }: Props) {
-
-  const {addToCart} = useCartStore();
 
   return (
     <div className="flex-1 p-4 overflow-y-auto">
@@ -61,7 +58,7 @@ export default function ProductGrid({
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} onAdd={() => addToCart(product)} theme={theme} />
+          <ProductCard key={product.id} product={product} theme={theme} />
         ))}
       </div>
     </div>
