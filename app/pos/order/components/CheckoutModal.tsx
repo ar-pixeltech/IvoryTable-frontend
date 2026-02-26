@@ -4,18 +4,18 @@ import { Product, themeColors } from '@/utils/productData';
 import { CreditCard, IndianRupee, X, Check } from 'lucide-react';
 
 interface CartItem extends Product {
-    quantity: number;
-  }
-  
-  export interface CheckoutModalProps {
-    cart: CartItem[];
-    theme: any;
-    total: number;
-    paymentMethod: 'cash' | 'card';
-    setPaymentMethod: (method: 'cash' | 'card') => void;
-    onClose: () => void;
-    onConfirm: () => void;
-  }
+  quantity: number;
+}
+
+export interface CheckoutModalProps {
+  cart: CartItem[];
+  theme: any;
+  total: number;
+  paymentMethod: 'cash' | 'card';
+  setPaymentMethod: (method: 'cash' | 'card') => void;
+  onClose: () => void;
+  onConfirm: () => void;
+}
 
 export default function CheckoutModal({
   cart,

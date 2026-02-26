@@ -2,13 +2,22 @@
 
 import { CartItem } from '@/utils/productData';
 import { Minus, Plus, Trash2, CreditCard, ShoppingCart } from 'lucide-react';
+import { Adjustment } from '../page';
 
 interface CartPanelProps {
   cart: CartItem[];
   theme: any;
   subtotal: number;
   tax: number;
-  total: number;
+  finalTotal: number;
+
+  discount: Adjustment | null;
+  tip: Adjustment | null;
+  discountAmount: number;
+  tipAmount: number;
+
+  setActiveModal: (v: 'discount' | 'tip') => void;
+
   updateQuantity: (id: string, delta: number) => void;
   removeFromCart: (id: string) => void;
   clearCart: () => void;
@@ -20,7 +29,12 @@ export default function CartPanel({
   theme,
   subtotal,
   tax,
-  total,
+  finalTotal,
+  discount,
+  tip,
+  discountAmount,
+  tipAmount,
+  setActiveModal,
   updateQuantity,
   removeFromCart,
   clearCart,
@@ -91,6 +105,28 @@ export default function CartPanel({
 
       {/* Cart Summary */}
       <div className="border-t px-4 py-3 bg-gray-50">
+        <div className="flex gap-2 mb-2">
+          <button
+            disabled={cart.length === 0}
+            onClick={() => setActiveModal('discount')}
+            className={`flex-1 text-xs py-2 rounded border ${
+              discount ? theme.bg + ' text-white' : 'border-gray-300'
+            } disabled:opacity-40`}
+          >
+            {discount ? 'Edit Discount' : 'Add Discount'}
+          </button>
+
+          <button
+            disabled={cart.length === 0}
+            onClick={() => setActiveModal('tip')}
+            className={`flex-1 text-xs py-2 rounded border ${
+              tip ? theme.bg + ' text-white' : 'border-gray-300'
+            } disabled:opacity-40`}
+          >
+            {tip ? 'Edit Tip' : 'Add Tip'}
+          </button>
+        </div>
+        {/* Price Breakdown */}
         <div className="space-y-1.5 mb-3">
           <div className="flex justify-between text-gray-600 text-sm">
             <span>Subtotal</span>
@@ -98,13 +134,26 @@ export default function CartPanel({
               ₹{subtotal.toFixed(2)}
             </span>
           </div>
+          {discount && (
+            <div className="flex justify-between text-sm text-red-500">
+              <span>Discount</span>
+              <span>-₹{discountAmount.toFixed(2)}</span>
+            </div>
+          )}
           <div className="flex justify-between text-gray-600 text-sm">
             <span>Tax (8%)</span>
             <span className="font-semibold">₹{tax.toFixed(2)}</span>
           </div>
+          {tip && (
+            <div className="flex justify-between text-sm text-green-600">
+              <span>Tip</span>
+              <span>₹{tipAmount.toFixed(2)}</span>
+            </div>
+          )}
+
           <div className="flex justify-between text-lg font-bold text-gray-800 pt-2 border-t">
             <span>Total</span>
-            <span className={theme.text}>₹{total.toFixed(2)}</span>
+            <span className={theme.text}>₹{finalTotal.toFixed(2)}</span>
           </div>
         </div>
 

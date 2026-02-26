@@ -1,10 +1,19 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CartItem, categories, Product, products, themeColors } from '@/utils/productData';
 import Header from './components/Header';
 import ProductGrid from './components/ProductGrid';
 import CartPanel from './components/CartPanel';
 import CheckoutModal from './components/CheckoutModal';
+import AdjustmentModal from './components/AdjustmentModal';
+
+export type AdjustmentType = 'percent' | 'amount';
+
+export interface Adjustment {
+  type: AdjustmentType;
+  value: number;
+  remark?: string;
+}
 
 export default function LandingPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -14,6 +23,9 @@ export default function LandingPage() {
   const [showCheckout, setShowCheckout] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<'cash' | 'card'>('card');
+  const [discount, setDiscount] = useState<Adjustment | null>(null);
+  const [tip, setTip] = useState<Adjustment | null>(null);
+  const [activeModal, setActiveModal] = useState<'discount' | 'tip' | null>(null);
 
   const theme = themeColors[themeIndex];
 
@@ -54,10 +66,6 @@ export default function LandingPage() {
     return matchesCategory && matchesSearch;
   });
 
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const tax = subtotal * 0.08;
-  const total = subtotal + tax;
-
   const currentTime = new Date().toLocaleTimeString('en-US', {
     hour: '2-digit',
     minute: '2-digit',
@@ -71,6 +79,33 @@ export default function LandingPage() {
       clearCart();
     }, 1000);
   };
+
+  useEffect(() => {
+    if (cart.length === 0) {
+      setDiscount(null);
+      setTip(null);
+    }
+  }, [cart.length]);
+
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const discountAmount = discount
+    ? discount.type === 'percent'
+      ? subtotal * (Math.min(discount.value, 100) / 100)
+      : Math.min(discount.value, subtotal)
+    : 0;
+
+  const discountedSubtotal = Math.max(0, subtotal - discountAmount);
+
+  const tax = discountedSubtotal * 0.08;
+
+  const tipAmount = tip
+    ? tip.type === 'percent'
+      ? (discountedSubtotal + tax) * (tip.value / 100)
+      : tip.value
+    : 0;
+  const total = subtotal + tax;
+  const finalTotal = discountedSubtotal + tax + tipAmount;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
@@ -99,7 +134,12 @@ export default function LandingPage() {
           theme={theme}
           subtotal={subtotal}
           tax={tax}
-          total={total}
+          finalTotal={finalTotal}
+          discount={discount}
+          tip={tip}
+          discountAmount={discountAmount}
+          tipAmount={tipAmount}
+          setActiveModal={setActiveModal}
           updateQuantity={updateQuantity}
           removeFromCart={removeFromCart}
           clearCart={clearCart}
@@ -117,6 +157,23 @@ export default function LandingPage() {
           setPaymentMethod={setPaymentMethod}
           onClose={() => setShowCheckout(false)}
           onConfirm={handleCheckout}
+        />
+      )}
+      {activeModal && (
+        <AdjustmentModal
+          title={activeModal === 'discount' ? 'Discount' : 'Tip'}
+          initialValue={activeModal === 'discount' ? discount : tip}
+          onSave={(val) => {
+            if (activeModal === 'discount') setDiscount(val);
+            else setTip(val);
+            setActiveModal(null);
+          }}
+          onRemove={() => {
+            if (activeModal === 'discount') setDiscount(null);
+            else setTip(null);
+            setActiveModal(null);
+          }}
+          onClose={() => setActiveModal(null)}
         />
       )}
     </div>
