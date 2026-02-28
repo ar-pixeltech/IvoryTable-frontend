@@ -29,7 +29,8 @@ export default function AdminLogin() {
     try {
       const res = await adminLogin({ email, password });
 
-      login(res.data.data.token, 'admin'); // Store token and role in context/localStorage
+      const { token, email: userEmail } = res.data.data; // Adjust based on actual response structure
+      login(token, 'admin', { email: userEmail, name: 'Super Admin' }); // Store token and role in context/localStorage
 
       router.push('/admin/dashboard');
     } catch (err: any) {
