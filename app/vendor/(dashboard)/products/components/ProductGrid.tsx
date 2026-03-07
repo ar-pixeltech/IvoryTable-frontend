@@ -1,7 +1,7 @@
 import axios from '@/lib/axios';
 import Image from 'next/image';
-import StockBadge from '../../../../components/ui/StockBadge';
-import StatusBadge from '../../../../components/ui/StatusBadge';
+import StockBadge from '../../../../../components/ui/StockBadge';
+import StatusBadge from '../../../../../components/ui/StatusBadge';
 import { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from 'react';
 
 export default function ProductGrid(props: any) {
@@ -20,26 +20,26 @@ export default function ProductGrid(props: any) {
           imageKey: string | number;
           name: string;
           price:
+          | string
+          | number
+          | bigint
+          | boolean
+          | ReactElement<unknown, string | JSXElementConstructor<any>>
+          | Iterable<ReactNode>
+          | ReactPortal
+          | Promise<
             | string
             | number
             | bigint
             | boolean
+            | ReactPortal
             | ReactElement<unknown, string | JSXElementConstructor<any>>
             | Iterable<ReactNode>
-            | ReactPortal
-            | Promise<
-                | string
-                | number
-                | bigint
-                | boolean
-                | ReactPortal
-                | ReactElement<unknown, string | JSXElementConstructor<any>>
-                | Iterable<ReactNode>
-                | null
-                | undefined
-              >
             | null
-            | undefined;
+            | undefined
+          >
+          | null
+          | undefined;
           stock: any;
           isActive: any;
         }) => (

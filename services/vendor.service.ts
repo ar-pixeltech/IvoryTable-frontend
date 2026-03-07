@@ -1,8 +1,12 @@
 import api from '@/lib/axios';
 
 // Auth APIs
-export const login = (data: any) => {
-  return api.post('/vendor/auth/login', data);
+export const vendorLogin = (data: any) => {
+  return api.post('/vendor/login', data);
+};
+
+export const vendorRegister = (data: any) => {
+  return api.post('/vendor/register', data);
 };
 
 // Profile APIs
@@ -15,20 +19,24 @@ export const updateProfile = (id: string, data: any) => {
 };
 
 // Category APIs
-export const viewCategory = (id: string) => {
-  return api.get(`/vendor/category/${id}`);
+export const categoryList = () => {
+  return api.get(`/menu/category/all`);
 };
 
 export const createCategory = (data: any) => {
-  return api.post(`/vendor/category/create`, data);
+  return api.post(`/menu/category/create`, data);
 };
 
 export const updateCategory = (id: string, data: any) => {
-  return api.put(`/vendor/category/${id}`, data);
+  return api.put(`/menu/category/${id}`, data);
 };
 
 export const deleteCategory = (id: string) => {
-  return api.delete(`/vendor/category/${id}`);
+  return api.delete(`/menu/category/${id}`);
+};
+
+export const reorderCategories = (items: { id: string; position: number }[]) => {
+  return api.put(`/menu/category/reorder`, { items });
 };
 
 // Item APIs

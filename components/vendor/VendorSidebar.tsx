@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 
 const menuItems = [
-  { label: 'Dashboard', href: '/vendor', icon: LayoutDashboard },
+  { label: 'Dashboard', href: '/vendor/dashboard', icon: LayoutDashboard },
   { label: 'Categories', href: '/vendor/categories', icon: List },
   { label: 'Products', href: '/vendor/products', icon: Package },
   { label: 'Sales', href: '/vendor/sales', icon: BarChart3 },
@@ -38,9 +38,8 @@ export default function VendorSidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
-                active ? 'bg-emerald-600 text-white' : 'hover:bg-emerald-800'
-              }`}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${active ? 'bg-emerald-600 text-white' : 'hover:bg-emerald-800'
+                }`}
             >
               <Icon size={18} />
               {item.label}

@@ -2,27 +2,25 @@
 
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from '@/lib/axios';
 import { Plus } from 'lucide-react';
 import SortableItem from './components/SortableItem';
+import { createCategory, categoryList, reorderCategories, deleteCategory } from "@/services/vendor.service";
+
 
 export default function CategoriesPage() {
-  const [categories, setCategories] = useState<any[]>([
-    { id: '1', name: 'Burgers', position: 0 },
-    { id: '2', name: 'Pizzas', position: 1 },
-    { id: '3', name: 'Drinks', position: 2 },
-    { id: '4', name: 'Desserts', position: 3 },
-  ]);
+  const [categories, setCategories] = useState<any[]>([]);
 
-  // useEffect(() => {
-  //     fetchCategories()
-  // }, [])
+  useEffect(() => {
+    fetchCategories()
+  }, [])
 
-  // const fetchCategories = async () => {
-  //     const res = await axios.get("/vendor/categories")
-  //     setCategories(res.data.sort((a: any, b: any) => a.position - b.position))
-  // }
+  const fetchCategories = async () => {
+    const res = await categoryList();
+    // setCategories(res.data.sort((a: any, b: any) => a.position - b.position))
+    setCategories(res.data.data);
+  }
 
   const [newCategory, setNewCategory] = useState('');
   const [loading, setLoading] = useState(false);
@@ -36,12 +34,12 @@ export default function CategoriesPage() {
       const newItems = arrayMove(categories, oldIndex, newIndex);
       setCategories(newItems);
 
-      await axios.post('/vendor/categories/reorder', {
-        items: newItems.map((item, index) => ({
+      await reorderCategories(
+        newItems.map((item, index) => ({
           id: item.id,
           position: index,
         })),
-      });
+      );
     }
   };
 
@@ -64,7 +62,8 @@ export default function CategoriesPage() {
     setNewCategory('');
 
     try {
-      const res = await axios.post('/vendor/categories', {
+
+      const res = await createCategory({
         name: newCategory,
       });
 
@@ -87,7 +86,7 @@ export default function CategoriesPage() {
     setCategories((prev) => prev.filter((cat) => cat.id !== id));
 
     try {
-      await axios.delete(`/vendor/categories/${id}`);
+      await deleteCategory(id);
     } catch (err) {
       // rollback if error
       setCategories(previous);

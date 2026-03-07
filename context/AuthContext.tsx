@@ -45,7 +45,13 @@ export const AuthProvider = ({ children }: any) => {
     setToken(null);
     setRole(null);
     setUser(null);
-    window.location.href = '/admin/login';
+    if (window.location.pathname.startsWith('/admin')) {
+      window.location.href = '/admin/login';
+    } else if (window.location.pathname.startsWith('/vendor')) {
+      window.location.href = '/vendor/login';
+    } else {
+      window.location.href = '/login';
+    }
   };
 
   return (
