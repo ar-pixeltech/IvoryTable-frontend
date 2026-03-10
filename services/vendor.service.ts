@@ -9,6 +9,11 @@ export const vendorRegister = (data: any) => {
   return api.post('/vendor/register', data);
 };
 
+// Dashboard APIs
+export const viewDashboard = (id: string) => {
+  return api.get(`/vendor/dashboard/${id}`);
+};
+
 // Profile APIs
 export const viewProfile = (id: string) => {
   return api.get(`/vendor/profile/${id}`);

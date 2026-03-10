@@ -39,7 +39,7 @@ export default function VendorLogin() {
 
       const { token, ...vendor } = res.data.data;
 
-      login(token, 'vendor', vendor); // Store token and role in context/localStorage
+      login(token, 'vendor', vendor?.vendor); // Store token and role in context/localStorage
 
     } catch (err: any) {
 

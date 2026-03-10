@@ -11,6 +11,8 @@ import {
   CreditCard,
   List,
 } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { brandConfig } from '@/config/brand.config';
 
 const menuItems = [
   { label: 'Dashboard', href: '/vendor/dashboard', icon: LayoutDashboard },
@@ -24,10 +26,11 @@ const menuItems = [
 
 export default function VendorSidebar() {
   const pathname = usePathname();
+  const { user } = useAuth();
 
   return (
     <div className="w-64 bg-emerald-900 text-emerald-100 flex flex-col p-6">
-      <h2 className="text-2xl font-bold text-emerald-400 mb-10">Ivory Table</h2>
+      <h2 className="text-2xl font-bold text-emerald-400 mb-10">{user?.name || brandConfig.name}</h2>
 
       <nav className="space-y-2">
         {menuItems.map((item) => {

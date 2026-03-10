@@ -1,16 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import api from '@/lib/axios';
+import { useAuth } from '@/context/AuthContext';
+import { formatCurrency, formatDate } from '@/lib/utils';
 
 export default function SubscriptionPage() {
-  const [subscription, setSubscription] = useState<any>(null);
-
-  useEffect(() => {
-    api.get('/vendor/subscription').then((res) => {
-      setSubscription(res.data);
-    });
-  }, []);
+  const { user } = useAuth();
 
   return (
     <div>
@@ -18,13 +12,13 @@ export default function SubscriptionPage() {
 
       <div className="bg-white p-6 rounded-xl shadow-sm border w-96">
         <p>
-          <strong>Plan:</strong> {subscription?.planName}
+          <strong>Plan:</strong> {user?.subscription?.name} <small><i>({user?.subscription?.durationDays} days)</i></small>
         </p>
         <p>
-          <strong>Price:</strong> ₹{subscription?.price}
+          <strong>Price:</strong> {formatCurrency(user?.subscription?.price)}
         </p>
         <p>
-          <strong>Valid Till:</strong> {subscription?.expiryDate}
+          <strong>Valid Till:</strong> {formatDate(user.subscriptionEndsAt)}
         </p>
       </div>
     </div>
