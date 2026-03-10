@@ -11,7 +11,7 @@ export default function VendorLayout({ children }: { children: ReactNode }) {
   const { logout } = useAuth();
 
   return (
-    <RouteGuard role={Roles.VENDOR} type={RoleTypes.GUEST}>
+    <RouteGuard role={Roles.VENDOR} type={RoleTypes.PROTECTED}>
       <div className="flex min-h-screen bg-gray-100">
         <VendorSidebar />
 

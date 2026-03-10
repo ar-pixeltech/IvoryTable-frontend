@@ -165,7 +165,7 @@ export default function VendorSettingsPage() {
 
   const [profileForm, setProfileForm] = useState({
     name: user?.name || '',
-    phone: '',
+    phone: user?.phone || '',
   });
 
   const [storeForm, setStoreForm] = useState({
@@ -216,6 +216,9 @@ export default function VendorSettingsPage() {
             <p className="text-sm opacity-90">{user?.email}</p>
             <span className="inline-block mt-2 bg-white/20 px-3 py-1 rounded-full text-xs">
               Vendor Account
+            </span>
+            <span className="inline-block mt-2 bg-white/20 px-3 py-1 ml-2 rounded-full text-xs">
+              {user?.isActive ? 'Active' : 'Inactive'}
             </span>
             <p className="text-gray-200 mt-1  text-sm">Manage your account & store configuration</p>
           </div>
@@ -361,9 +364,8 @@ function TabButton({ label, active, onClick }: any) {
   return (
     <button
       onClick={onClick}
-      className={`px-4 py-2 rounded-lg text-sm transition ${
-        active ? 'bg-emerald-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-      }`}
+      className={`px-4 py-2 rounded-lg text-sm transition ${active ? 'bg-emerald-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+        }`}
     >
       {label}
     </button>
@@ -379,9 +381,8 @@ function Input({ label, value, onChange, type = 'text', disabled = false }: any)
         value={value}
         disabled={disabled}
         onChange={(e) => onChange(e.target.value)}
-        className={`w-full mt-1 border rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 outline-none ${
-          disabled ? 'bg-gray-100' : ''
-        }`}
+        className={`w-full mt-1 border rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 outline-none ${disabled ? 'bg-gray-100' : ''
+          }`}
       />
     </div>
   );
