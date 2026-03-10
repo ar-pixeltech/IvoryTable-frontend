@@ -1,7 +1,7 @@
 'use client';
 
 import { useCartStore } from '@/store/cartStore';
-import { CartItem } from '@/utils/productData';
+// import { CartItem } from '@/utils/productData';
 import { Minus, Plus, Trash2, CreditCard, ShoppingCart } from 'lucide-react';
 
 interface CartPanelProps {
@@ -85,9 +85,8 @@ export default function CartPanel({ theme, setActiveModal, setShowCheckout }: Ca
           <button
             disabled={cart.length === 0}
             onClick={() => setActiveModal('discount')}
-            className={`flex-1 text-xs py-2 rounded border ${
-              discount ? theme.bg + ' text-white' : 'border-gray-300'
-            } disabled:opacity-40`}
+            className={`flex-1 text-xs py-2 rounded border ${discount ? theme.bg + ' text-white' : 'border-gray-300'
+              } disabled:opacity-40`}
           >
             {discount ? 'Edit Discount' : 'Add Discount'}
           </button>
@@ -95,9 +94,8 @@ export default function CartPanel({ theme, setActiveModal, setShowCheckout }: Ca
           <button
             disabled={cart.length === 0}
             onClick={() => setActiveModal('tip')}
-            className={`flex-1 text-xs py-2 rounded border ${
-              tip ? theme.bg + ' text-white' : 'border-gray-300'
-            } disabled:opacity-40`}
+            className={`flex-1 text-xs py-2 rounded border ${tip ? theme.bg + ' text-white' : 'border-gray-300'
+              } disabled:opacity-40`}
           >
             {tip ? 'Edit Tip' : 'Add Tip'}
           </button>
