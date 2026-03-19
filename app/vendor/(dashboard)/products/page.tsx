@@ -7,6 +7,7 @@ import ProductTable from './components/ProductTable';
 import Image from 'next/image';
 import { LayoutGrid, List } from 'lucide-react';
 import ProductGrid from './components/ProductGrid';
+import IconPicker from '@/components/ui/IconPicker';
 
 export default function ProductsPage() {
   const productImageMap: Record<string, string> = {
@@ -83,6 +84,8 @@ export default function ProductsPage() {
           </a>
         </div>
       </div>
+
+      <IconPicker />
 
       {/* GRID VIEW */}
       {view === 'grid' && (
